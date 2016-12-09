@@ -1,24 +1,37 @@
 angular.module('sorteioApp', [])
-  .controller('SorteioController', function() {
-    var sorteio = this;
+  .controller('sorteioController', function($scope) {
+
+    //var sorteio = $scope;
 
     init();
 
-    sorteio.addNome = function(){
-		sorteio.count += 1; 
-    	var nomeCabra = {id: sorteio.count, nome: sorteio.nomeJogador}
-    	sorteio.nomes.push(nomeCabra);
+    $scope.addNome = function(){
 
-    	sorteio.nomeJogador = '';
-    	sorteio.isTemJogadores = true;
+        if (!$scope.formAdd.$valid) {
+            alert('Permitido somente letras! cabra safado');
+            return;
+        }
+
+		$scope.count += 1; 
+    	var nomeCabra = {id: $scope.count, nome: $scope.nomeJogador};
+    	$scope.nomes.push(nomeCabra);
+
+    	$scope.nomeJogador = '';
+    	$scope.isTemJogadores = true;
     };
 
+    $scope.sortearNovamente = function(){
+        
+        $scope.nomesSorteados = [];
+        $scope.idsSorteados = [];
+        $scope.jogadoresFora = [];
 
-    sorteio.sortearDuplas = function(){
+        $scope.sortearDuplas();        
+    };
 
-    	sorteio.isTemJogadores = false;
+    $scope.sortearDuplas = function(){
 
-    	var qtdDuplas = Math.floor(sorteio.nomes.length / 2);
+    	var qtdDuplas = Math.floor($scope.nomes.length / 2);
 
     	for (var j = 0; j < qtdDuplas; j++) {
 
@@ -35,13 +48,13 @@ angular.module('sorteioApp', [])
 
     			if (jogador1 == null) {
     				jogador1 = numeroSorteado;
-    				sorteio.idsSorteados.push(numeroSorteado);
+    				$scope.idsSorteados.push(numeroSorteado);
     				continue;
     			}
 
     			if (jogador2 == null) {
     				jogador2 = numeroSorteado;
-    				sorteio.idsSorteados.push(numeroSorteado);
+    				$scope.idsSorteados.push(numeroSorteado);
     			}
 
     			if (jogador1 != null && jogador2 != null) {
@@ -58,19 +71,19 @@ angular.module('sorteioApp', [])
 
     };
 
-    sorteio.resetSorteio = function(){
+    $scope.resetSorteio = function(){
     	init();
     };
 
     function processaJogadoresFora(){
 
-		sorteio.nomes.forEach(function(obj){
+		$scope.nomes.forEach(function(obj){
 
 			var t = obj;
 
 			if (!containsNumeroSorteado(obj.id)) {
-				sorteio.jogadoresFora.push(t);
-				sorteio.isJogadorFora = true;
+				$scope.jogadoresFora.push(t);
+				$scope.isJogadorFora = true;
 			}
 
 		});    
@@ -83,7 +96,7 @@ angular.module('sorteioApp', [])
 		var duplaSorteada = {};
 		duplaSorteada.jogadores = [];
 
-		sorteio.nomes.forEach(function(obj){
+		$scope.nomes.forEach(function(obj){
 
 			var t = obj;
 
@@ -101,19 +114,19 @@ angular.module('sorteioApp', [])
 
 		});
 
-		sorteio.nomesSorteados.push(duplaSorteada);
+		$scope.nomesSorteados.push(duplaSorteada);
 		
-		sorteio.isTemSorteados = true;
+		$scope.isTemSorteados = true;
 	};
 
 
 
     function containsNumeroSorteado(numeroSorteado){
 
-	    var i = sorteio.idsSorteados.length;
+	    var i = $scope.idsSorteados.length;
 
 	    while (i--) {
-	       if (sorteio.idsSorteados[i] === numeroSorteado) {
+	       if ($scope.idsSorteados[i] === numeroSorteado) {
 	           return true;
 	       }
 
@@ -123,18 +136,18 @@ angular.module('sorteioApp', [])
     };
 
     function sortearNumero(){
-    	return Math.floor((Math.random() * sorteio.nomes.length) + 1);
+    	return Math.floor((Math.random() * $scope.nomes.length) + 1);
     };
 
     function init(){
-    	sorteio.count = 0;
-	    sorteio.nomes = [];
-	    sorteio.nomesSorteados = [];
-	    sorteio.idsSorteados = [];
-	    sorteio.isTemSorteados = false;
-	    sorteio.isTemJogadores = false;
-	    sorteio.isJogadorFora = false;
-	    sorteio.jogadoresFora = [];
+    	$scope.count = 0;
+	    $scope.nomes = [];
+	    $scope.nomesSorteados = [];
+	    $scope.idsSorteados = [];
+	    $scope.isTemSorteados = false;
+	    $scope.isTemJogadores = false;
+	    $scope.isJogadorFora = false;
+	    $scope.jogadoresFora = [];
     };
 
   });
