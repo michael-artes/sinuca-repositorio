@@ -2,6 +2,6 @@
 
 ### Quick start! ###
 * npm install
-* nodejs server.js
+* npm start or nodejs server.js
 
 http://localhost:5000
