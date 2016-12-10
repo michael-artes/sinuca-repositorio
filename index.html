@@ -57,7 +57,9 @@
         <form class="form-inline" ng-submit="addNome()" validate name="formAdd">
           <div class="form-group form-group-lg">
               <input class="form-control" type="text" name="nome" ng-model="nomeJogador" required placeholder="Nome do Cabra..." ng-pattern="/[a-zA-Z]/">
+          </div>
 
+          <div class="form-group form-group-lg">
               <button type="submit" class="btn btn-primary btn-lg"> <span class="glyphicon glyphicon-plus"></span> Adicionar</button>
           </div>
 
@@ -93,11 +95,19 @@
       </div>
 
       <div class="form-inline">
+
         <div class="form-group form-group-lg">
             <button type="button" class="btn btn-warning btn-lg" ng-show="isTemJogadores && !isTemSorteados" ng-click="sortearDuplas()"> <span class="glyphicon glyphicon-tag"></span> Sortear</button>
+        </div>
+
+        <div class="form-group form-group-lg">
             <button type="button" class="btn btn-success btn-lg" ng-show="isTemSorteados" ng-click="resetSorteio()"> <span class="glyphicon glyphicon-minus"></span> Resert Sorteio</button>
+        </div>
+
+        <div class="form-group form-group-lg">
             <button type="button" class="btn btn-info btn-lg" ng-show="isTemSorteados" ng-click="sortearNovamente()"><span class="glyphicon glyphicon-repeat"></span> Sortear Novamente</button>
         </div>
+
       </div>           
 
       <div ng-show="isTemSorteados">
